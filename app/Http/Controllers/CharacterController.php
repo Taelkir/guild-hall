@@ -8,13 +8,15 @@ use Illuminate\Http\Request;
 class CharacterController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a list of all characters.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $characters = Character::all();
+
+        return view("characters.index", ["characters" => $characters]);
     }
 
     /**
