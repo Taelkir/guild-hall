@@ -16,6 +16,12 @@ class CreateCharactersTable extends Migration
         Schema::create('characters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->string("name");
+            $table->string("race")->nullable;
+            $table->string("gender")->nullable;
+            $table->text("description")->nullable();
+            $table->unsignedBigInteger("user_id");
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

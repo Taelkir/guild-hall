@@ -16,6 +16,11 @@ class CreateChatMessagesTable extends Migration
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
+            $table->text("body");
+            $table->unsignedBigInteger("said_by");
+            $table->foreign("said_by")->references("id")->on("characters");
+            $table->unsignedBigInteger("said_in");
+            $table->foreign("said_in")->references("id")->on("rooms");
         });
     }
 
