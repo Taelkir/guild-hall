@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Character;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class CharacterController extends Controller
 {
@@ -73,7 +72,7 @@ class CharacterController extends Controller
 	 */
 	public function edit(Character $character)
 	{
-		//
+		return view("characters.edit", ["character" => $character]);
 	}
 
 	/**
@@ -85,7 +84,21 @@ class CharacterController extends Controller
 	 */
 	public function update(Request $request, Character $character)
 	{
-		//
+		$request->validate([
+			"name" => ["required", "min:3", "max:255"],
+			"race" => ["min:3", "max:255"],
+			"gender" => ["min:3", "max:255"],
+			"description" => "max:100000",
+		]);
+
+		$character->name = $request->name;
+		$character->race = $request->race;
+		$character->gender = $request->gender;
+		$character->description = $request->description;
+		$character->save();
+
+		$request->session()->flash('status', 'Successfully updated character!');
+		return redirect("characters/" . $character->id);
 	}
 
 	/**
