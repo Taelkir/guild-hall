@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Character;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class CharacterController extends Controller
 {
@@ -97,7 +98,7 @@ class CharacterController extends Controller
 		$character->description = $request->description;
 		$character->save();
 
-		$request->session()->flash('status', 'Successfully updated character!');
+		$request->session()->flash('message', 'Successfully updated character!');
 		return redirect("characters/" . $character->id);
 	}
 
@@ -109,6 +110,8 @@ class CharacterController extends Controller
 	 */
 	public function destroy(Character $character)
 	{
-		//
+		$character->delete();
+		Session::flash('message', "Successfully deleted character $character->name!");
+		return redirect("characters/");
 	}
 }

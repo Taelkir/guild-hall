@@ -19,7 +19,18 @@
 			<td>{{$character->race}}</td>
 			<td>{{$character->gender}}</td>
 			<td>{{$character->description}}</td>
-			<td><a href="characters/{{$character->id}}/edit">Edit</a></td>
+			<td>
+				<a href="characters/{{$character->id}}/edit" class="btn btn-link">
+					Edit character
+				</a>
+				<form action="/characters/{{$character->id}}" method="POST">
+					@csrf
+					@method("DELETE")
+					<button type="submit" class="btn btn-link">
+						Delete character
+					</button>
+				</form>
+			</td>
 		</tr>
 		@endforeach
 	</tbody>
