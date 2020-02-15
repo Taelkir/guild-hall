@@ -17,4 +17,9 @@ class Character extends Model
 	{
 		return $this->belongsToMany("App\Room", "characters_rooms")->withTimestamps();
 	}
+
+	public function summary()
+	{
+		return "$this->name, $this->gender $this->race";
+	}
 }
