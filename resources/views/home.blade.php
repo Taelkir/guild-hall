@@ -17,7 +17,7 @@
 
 					<nav>
 						<li><a href="/characters">View your characters</a></li>
-						<li><a href="/rooms">View all rooms (not yet)</a></li>
+						<li><a href="/rooms">View all rooms</a></li>
 					</nav>
 					<a>
 				</div>

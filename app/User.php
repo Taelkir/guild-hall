@@ -41,4 +41,14 @@ class User extends Authenticatable
 	{
 		return $this->hasMany('App\Character');
 	}
+
+	public function ownsRooms()
+	{
+		return $this->hasMany("App\Room", "created_by_user");
+	}
+
+	public function accessToRooms()
+	{
+		return $this->belongsToMany("App\Room", "users_rooms", "user_id", "room_id")->withTimestamps();
+	}
 }

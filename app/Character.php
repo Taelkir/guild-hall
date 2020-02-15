@@ -12,4 +12,9 @@ class Character extends Model
 	{
 		return $this->belongsTo('App\User');
 	}
+
+	public function rooms()
+	{
+		return $this->belongsToMany("App\Room", "characters_rooms")->withTimestamps();
+	}
 }

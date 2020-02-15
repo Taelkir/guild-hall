@@ -2,6 +2,13 @@
 
 @section('content')
 <h1>Your characters</h1>
+<nav>
+	<ul>
+		<li>
+			<a href="/characters/create">New character</a>
+		</li>
+	</ul>
+</nav>
 <table class="table">
 	<thead>
 		<tr>

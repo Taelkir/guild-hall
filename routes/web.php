@@ -20,3 +20,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::resource("characters", "CharacterController")->middleware("auth");
+
+Route::resource("rooms", "RoomController")->middleware("auth");
