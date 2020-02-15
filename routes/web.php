@@ -22,3 +22,4 @@ Auth::routes();
 Route::resource("characters", "CharacterController")->middleware("auth");
 
 Route::resource("rooms", "RoomController")->middleware("auth");
+Route::post("/rooms/{id}/addCharacter", "RoomController@addCharacter")->middleware("auth");

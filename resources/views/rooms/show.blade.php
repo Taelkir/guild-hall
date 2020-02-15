@@ -18,6 +18,16 @@
 	</ul>
 </nav>
 @endif
+<h2>Characters in this room</h2>
+<ul>
+	@foreach ($room->characters as $character)
+	<li>
+		<a href="/characters/{{ $character->id }}">
+			{{ $character->summary() }}
+		</a>
+	</li>
+	@endforeach
+</ul>
 
 <h2>Users with access to this room</h2>
 <ul>

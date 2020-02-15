@@ -76,7 +76,7 @@ class RoomController extends Controller
 	 */
 	public function edit(Room $room)
 	{
-		return view("rooms.edit", ["room" => $room]);
+		return view("rooms.edit", ["room" => $room, "characters" => \App\Character::all()]);
 	}
 
 	/**
@@ -113,5 +113,26 @@ class RoomController extends Controller
 		$room->delete();
 		Session::flash('message', "Successfully deleted character $room->name!");
 		return redirect("rooms/");
+	}
+
+	/**
+	 * Add a character to the room
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param \App\Room $room
+	 * @return \Illuminate\Http\Response
+	 */
+	public function addCharacter(Request $request, $id)
+	{
+		$request->validate([
+			"character" => "exists:characters,id"
+		]);
+
+		$room = \App\Room::where("id", $id)->first();
+
+		$room->characters()->attach($request->input(['character']));
+
+		Session::flash('message', "Character added to $room->name!");
+		return redirect("rooms/$room->id/edit");
 	}
 }

@@ -2,6 +2,7 @@
 
 @section("content")
 <form action="/rooms/{{ $room->id }}" method="post">
+	<legend>Edit form details</legend>
 	@csrf
 	@method('PATCH')
 	<div class="form-group row">
@@ -48,6 +49,33 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-6">
 			<button type="submit" class="btn btn-primary">Submit changes</button>
+		</div>
+	</div>
+</form>
+<form action="/rooms/{{$room->id}}/addCharacter" method="POST">
+	@csrf
+	<legend>Add character to room</legend>
+	<div class="form-group row">
+		<label for="character" class="col-md-4 col-form-label text-md-right">Character select</label>
+		<div class="col-md-6">
+			<select class="custom-select" name="character" id="character">
+				<option readonly selected>Select a character</option>
+				@foreach ($characters as $character)
+				<option value="{{ $character->id }}">{{ $character->name }}, {{$character->gender }}
+					{{$character->race}} (owned by {{ $character->user->email }})</option>
+				@endforeach
+			</select>
+			@error('character')
+			<span class="invalid-feedback" role="alert">
+				<strong>{{ $message }}</strong>
+			</span>
+			@enderror
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-4"></div>
+		<div class="col-md-6">
+			<button type="submit" class="btn btn-primary">Add character</button>
 		</div>
 	</div>
 </form>
