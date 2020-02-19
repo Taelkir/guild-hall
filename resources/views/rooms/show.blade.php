@@ -32,7 +32,7 @@
 <h2>Users with access to this room</h2>
 <ul>
 	@foreach ($room->usersWithAccess as $user)
-	<li>{{ $user->email }}</li>
+	<li>{{ $user->username }}</li>
 	@endforeach
 </ul>
 

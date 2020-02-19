@@ -62,7 +62,7 @@
 				<option readonly selected>Select a character</option>
 				@foreach ($characters as $character)
 				<option value="{{ $character->id }}">{{ $character->name }}, {{$character->gender }}
-					{{$character->race}} (owned by {{ $character->user->email }})</option>
+					{{ $character->race }} (owned by {{ $character->user->username }})</option>
 				@endforeach
 			</select>
 			@error('character')
