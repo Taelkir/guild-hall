@@ -86,6 +86,7 @@
 		<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('message') }}</p>
 		@endif
 
+
 		<main class="py-4">
 			@yield('content')
 		</main>

@@ -61,8 +61,13 @@
 			<select class="custom-select" name="character" id="character">
 				<option readonly selected>Select a character</option>
 				@foreach ($characters as $character)
+				@if($room->characters->contains($character))
+				<option disabled value="{{ $character->id }}">{{ $character->name }}, {{$character->gender }}
+					{{ $character->race }} (owned by {{ $character->user->username }}) is already in this room</option>
+				@else
 				<option value="{{ $character->id }}">{{ $character->name }}, {{$character->gender }}
 					{{ $character->race }} (owned by {{ $character->user->username }})</option>
+				@endif
 				@endforeach
 			</select>
 			@error('character')

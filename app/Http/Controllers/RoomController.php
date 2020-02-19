@@ -125,14 +125,20 @@ class RoomController extends Controller
 	public function addCharacter(Request $request, $id)
 	{
 		$request->validate([
-			"character" => "exists:characters,id"
+			"character" => ["exists:characters,id"]
 		]);
 
-		$room = \App\Room::where("id", $id)->first();
+		$room = \App\Room::where("id", $id)->with("characters")->first();
 
-		$room->characters()->attach($request->input(['character']));
+		// Check if the character is already in that room
+		if ($room->characters->contains($request->input(['character']))) {
+			Session::flash('alert-class', "alert-danger");
+			Session::flash('message', "Character is already in this room...");
+		} else {
+			$room->characters()->attach($request->input(['character']));
+			Session::flash('message', "Character added to $room->name!");
+		}
 
-		Session::flash('message', "Character added to $room->name!");
 		return redirect("rooms/$room->id/edit");
 	}
 }
