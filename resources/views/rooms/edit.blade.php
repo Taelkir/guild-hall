@@ -83,5 +83,11 @@
 			<button type="submit" class="btn btn-primary">Add character</button>
 		</div>
 	</div>
+	<div class="form-group row">
+		<div class="col-md-4"></div>
+		<div class="col-md-6">
+			<a href="/rooms/{{$room->id}}">Go back to room</a>
+		</div>
+	</div>
 </form>
 @endsection

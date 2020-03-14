@@ -24,8 +24,8 @@
 		<tr>
 			<th scope="row">{{ $room->name }}</td>
 			<td>{{ $room->description }}</td>
-			<td>{{ $room->private }}</td>
-			<td>{{ $room->admin['email'] }}</td>
+			<td>{{ $room->private ? "Yes" : "No"  }}</td>
+			<td>{{ $room->admin['username'] }}</td>
 			<td>
 				<a href="rooms/{{ $room->id }}" class="btn btn-link">
 					View

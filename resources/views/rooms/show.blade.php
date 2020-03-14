@@ -9,6 +9,12 @@
 	{{ $room->description }}
 </p>
 
+<div class="chat-wrapper" id="chatWrapper">
+
+</div>
+
+<hr>
+
 @if($room->admin->id === auth()->user()->id)
 <nav>
 	<ul>
