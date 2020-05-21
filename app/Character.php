@@ -18,6 +18,11 @@ class Character extends Model
 		return $this->belongsToMany("App\Room", "characters_rooms")->withTimestamps();
 	}
 
+	public function messages()
+	{
+		return $this->hasMany("App\ChatMessage", "said_by");
+	}
+
 	public function summary()
 	{
 		return "$this->name, $this->gender $this->race";
