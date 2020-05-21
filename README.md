@@ -8,3 +8,5 @@ Todo:
 Further reading:
 
 https://pusher.com/tutorials/chat-laravel
+
+Pusher has 200k messages a day on free tier
