@@ -3,10 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\ChatMessage;
+use App\Room;
 use Illuminate\Http\Request;
 
 class ChatMessageController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('auth');
+	}
+
+	/**
+	 * Display a listing of the messages in the given room.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index($roomId)
+	{
+		$room = Room::findOrFail($roomId);
+
+		return response()->json($room->messages);
+	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -22,7 +39,11 @@ class ChatMessageController extends Controller
 			"said_in" => "required|number", // room id
 		]);
 
-		return new ChatMessage($validated);
+		$room = Room::findOrFail($validated['said_in']);
+
+		$room->messages()->create($validated);
+
+		return ['status' => 'Message Sent!'];
 	}
 
 	/**
