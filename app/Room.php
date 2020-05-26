@@ -18,7 +18,7 @@ class Room extends Model
 		return $this->belongsToMany("App\Character", "characters_rooms")->withTimestamps();
 	}
 
-	public function messagess()
+	public function messages()
 	{
 		return $this->hasMany("App\ChatMessage", "said_in");
 	}

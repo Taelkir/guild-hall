@@ -71889,9 +71889,12 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Chat)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      messages: null,
+      messages: [{
+        body: "loading messages..."
+      }],
       messageToSend: null,
-      room: window.roomId
+      room: window.roomId,
+      character: window.characterId
     });
 
     _defineProperty(_assertThisInitialized(_this), "handleInputChange", function (e) {
@@ -71918,7 +71921,25 @@ function (_React$Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "sendMessage", function () {});
+    _defineProperty(_assertThisInitialized(_this), "sendMessage", function () {
+      var newMessage = {
+        body: _this.state.messageToSend,
+        said_by: _this.state.character,
+        said_in: _this.state.room
+      };
+      fetch("/messages/".concat(_this.state.room, "/store"), {
+        method: "POST",
+        body: JSON.stringify(newMessage),
+        headers: {
+          "X-CSRF-TOKEN": window.csrf,
+          "Content-Type": "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        return console.log(data);
+      });
+    });
 
     return _this;
   }
@@ -71931,6 +71952,7 @@ function (_React$Component) {
       fetch("/messages/".concat(window.roomId, "/fetch")).then(function (data) {
         return data.json();
       }).then(function (json) {
+        console.dir(json);
         return _this2.setState(function () {
           return {
             messages: json
@@ -71954,21 +71976,25 @@ function (_React$Component) {
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
           className: "left clearfix",
           "v-for": "message in messages"
-        },
-        /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-body clearfix"
-        },
-        /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "header"
-        },
-        /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
-          className: "primary-font"
-        }, "Character name")),
-        /*#__PURE__*/
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Says this!")))),
+        }, this.state.messages.map(function (message, index) {
+          return (
+            /*#__PURE__*/
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "chat-body clearfix",
+              key: index
+            },
+            /*#__PURE__*/
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "header"
+            },
+            /*#__PURE__*/
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
+              className: "primary-font"
+            }, message.said_by)),
+            /*#__PURE__*/
+            react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, message.body))
+          );
+        }))),
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "input-group"
@@ -71990,7 +72016,8 @@ function (_React$Component) {
         /*#__PURE__*/
         react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "btn btn-primary btn-sm",
-          id: "btn-chat"
+          id: "btn-chat",
+          onClick: this.sendMessage
         }, "Send"))))
       );
     }

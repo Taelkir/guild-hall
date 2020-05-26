@@ -2,12 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 export default class Chat extends React.Component {
-	state = { messages: null, messageToSend: null, room: window.roomId };
+	state = {
+		messages: [{ body: "loading messages..." }],
+		messageToSend: null,
+		room: window.roomId,
+		character: window.characterId
+	};
 
 	componentDidMount() {
 		fetch(`/messages/${window.roomId}/fetch`)
 			.then(data => data.json())
 			.then(json => {
+				console.dir(json);
 				return this.setState(() => {
 					return { messages: json };
 				});
@@ -34,7 +40,22 @@ export default class Chat extends React.Component {
 		);
 	};
 	sendMessage = () => {
+		let newMessage = {
+			body: this.state.messageToSend,
+			said_by: this.state.character,
+			said_in: this.state.room
+		};
 
+		fetch(`/messages/${this.state.room}/store`, {
+			method: "POST",
+			body: JSON.stringify(newMessage),
+			headers: {
+				"X-CSRF-TOKEN": window.csrf,
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => response.json())
+			.then(data => console.log(data));
 	};
 
 	render() {
@@ -42,12 +63,14 @@ export default class Chat extends React.Component {
 			<div className="container">
 				<ul className="chat">
 					<li className="left clearfix" v-for="message in messages">
-						<div className="chat-body clearfix">
-							<div className="header">
-								<strong className="primary-font">Character name</strong>
+						{this.state.messages.map((message, index) => (
+							<div className="chat-body clearfix" key={index}>
+								<div className="header">
+									<strong className="primary-font">{message.said_by}</strong>
+								</div>
+								<p>{message.body}</p>
 							</div>
-							<p>Says this!</p>
-						</div>
+						))}
 					</li>
 				</ul>
 				<div className="input-group">
@@ -60,9 +83,12 @@ export default class Chat extends React.Component {
 						onChange={this.handleInputChange}
 						onKeyDown={this.handleKeyDown}
 					/>
-
 					<span className="input-group-btn">
-						<button className="btn btn-primary btn-sm" id="btn-chat">
+						<button
+							className="btn btn-primary btn-sm"
+							id="btn-chat"
+							onClick={this.sendMessage}
+						>
 							Send
 						</button>
 					</span>

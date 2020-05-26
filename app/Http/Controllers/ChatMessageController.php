@@ -33,15 +33,15 @@ class ChatMessageController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$validated = $request->validate([
-			"body" => "max:100000", // message text
-			"said_by" => "required|number", // character id
-			"said_in" => "required|number", // room id
+		// dd($request);
+
+		$room = Room::findOrFail($request->input("said_in"));
+
+		$room->messages()->create([
+			"body" => $request->input("body"),
+			"said_by" => $request->input("said_by"), // character id
+			"said_in" => $request->input("said_in"), // room id
 		]);
-
-		$room = Room::findOrFail($validated['said_in']);
-
-		$room->messages()->create($validated);
 
 		return ['status' => 'Message Sent!'];
 	}

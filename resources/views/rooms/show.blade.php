@@ -50,6 +50,8 @@
 
 <script>
 	window.roomId = "{{ $room->id }}";
+	window.characterId = "{{ Auth::user()->characters()->first()->id }}";
+	window.csrf= "{{ csrf_token() }}"
 </script>
 <div class="chat-wrapper" id="chatWrapper"></div>
 
